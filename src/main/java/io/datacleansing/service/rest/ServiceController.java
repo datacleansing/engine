@@ -29,6 +29,7 @@ import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
+import io.datacleansing.service.representation.Algorithm;
 import io.datacleansing.service.representation.Flow;
 import io.datacleansing.service.representation.Job;
 
@@ -45,7 +46,20 @@ public class ServiceController {
 		s3client.setRegion(Region.getRegion(Regions.AP_NORTHEAST_1));
 		restTemplate = new RestTemplate();
 	}
-	
+
+	@RequestMapping( method = RequestMethod.GET )
+	public ResponseEntity<Algorithm[]> getAlgrithms(){
+		Algorithm[] algs = new Algorithm[1];
+		
+		Algorithm alg = new Algorithm();
+		alg.setKey("scheme");
+		alg.setLabel("Scheme");
+		alg.setDescription("Change the wrong string to the correct one");
+		alg.setSampleData("wrong,correct\nwrong2,correct");
+		algs[0] = alg;
+				
+		return new ResponseEntity<Algorithm[]>(algs, HttpStatus.OK);
+	}
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping( method = RequestMethod.POST )
